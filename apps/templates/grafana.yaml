@@ -1,0 +1,286 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: grafana-secret
+  namespace: monitoring
+spec:
+  encryptedData:
+    admin-password: {{ .Values.grafana.encryptedPassword }}
+    admin-user: {{ .Values.grafana.encryptedUsername }}
+  template:
+    metadata:
+      creationTimestamp: null
+      name: grafana-secret
+      namespace: monitoring
+    type: Opaque
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://grafana.github.io/helm-charts'
+    chart: grafana
+    targetRevision: 8.10.1
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          ingressClassName: traefik
+          hosts:
+            - grafana.{{ .Values.domain }}
+        persistence:
+          enabled: true
+          storageClassName: longhorn
+          size: {{ .Values.grafana.diskSize }}
+        admin:
+          existingSecret: grafana-secret
+        sidecar:
+          dashboards:
+            enabled: true
+            label: grafana_dashboard
+            folder: /var/lib/grafana/dashboards/default
+        dashboardsConfigMap:
+          grafana-dashboard: "1"
+        envFromSecret: telegram-secret
+        datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+            - name: Prometheus
+              type: prometheus
+              url: https://prometheus.{{ .Values.domain }}
+              access: proxy
+              isDefault: true
+              jsonData:
+                tlsSkipVerify: true
+        alerting:
+          rules.yaml:
+            apiVersion: 1
+            groups:
+                - orgId: 1
+                  name: 5m
+                  folder: k3s
+                  interval: 5m
+                  rules:
+                    - uid: decdg0f3p730gb
+                      title: Storage
+                      condition: C
+                      data:
+                        - refId: A
+                          relativeTimeRange:
+                            from: 10800
+                            to: 0
+                          datasourceUid: PBFA97CFB590B2093
+                          model:
+                            adhocFilters: []
+                            datasource:
+                                type: prometheus
+                                uid: PBFA97CFB590B2093
+                            editorMode: code
+                            exemplar: true
+                            expr: sum (container_fs_usage_bytes{id="/",node=~"^.*$"}) / sum (container_fs_limit_bytes{id="/",node=~"^.*$"}) * 100
+                            format: time_series
+                            instant: true
+                            interval: 10s
+                            intervalFactor: 1
+                            intervalMs: 120000
+                            legendFormat: ""
+                            maxDataPoints: 100
+                            metric: ""
+                            range: false
+                            refId: A
+                            step: 10
+                        - refId: C
+                          datasourceUid: __expr__
+                          model:
+                            conditions:
+                                - evaluator:
+                                    params:
+                                        - 80
+                                    type: gt
+                                  operator:
+                                    type: and
+                                  query:
+                                    params:
+                                        - C
+                                  reducer:
+                                    params: []
+                                    type: last
+                                  type: query
+                            datasource:
+                                type: __expr__
+                                uid: __expr__
+                            expression: A
+                            intervalMs: 1000
+                            maxDataPoints: 43200
+                            refId: C
+                            type: threshold
+                      dashboardUid: eebutjlqdtds0b
+                      panelId: 7
+                      noDataState: NoData
+                      execErrState: Error
+                      for: 5m
+                      annotations:
+                        __dashboardUid__: eebutjlqdtds0b
+                        __panelId__: "7"
+                      isPaused: false
+                      notification_settings:
+                        receiver: Telegram
+                    - uid: decdgr8xgtqm8f
+                      title: CPU
+                      condition: C
+                      data:
+                        - refId: A
+                          relativeTimeRange:
+                            from: 10800
+                            to: 0
+                          datasourceUid: PBFA97CFB590B2093
+                          model:
+                            adhocFilters: []
+                            datasource:
+                                type: prometheus
+                                uid: PBFA97CFB590B2093
+                            editorMode: code
+                            exemplar: true
+                            expr: sum (rate (container_cpu_usage_seconds_total{node=~"^.*$"}[5m])) / sum (machine_cpu_cores{node=~"^.*$"}) * 100
+                            format: time_series
+                            instant: true
+                            interval: 10s
+                            intervalFactor: 1
+                            intervalMs: 120000
+                            legendFormat: ""
+                            maxDataPoints: 100
+                            range: false
+                            refId: A
+                            step: 10
+                        - refId: C
+                          datasourceUid: __expr__
+                          model:
+                            conditions:
+                                - evaluator:
+                                    params:
+                                        - 80
+                                    type: gt
+                                  operator:
+                                    type: and
+                                  query:
+                                    params:
+                                        - C
+                                  reducer:
+                                    params: []
+                                    type: last
+                                  type: query
+                            datasource:
+                                type: __expr__
+                                uid: __expr__
+                            expression: A
+                            intervalMs: 1000
+                            maxDataPoints: 43200
+                            refId: C
+                            type: threshold
+                      dashboardUid: eebutjlqdtds0b
+                      panelId: 6
+                      noDataState: NoData
+                      execErrState: Error
+                      for: 5m
+                      annotations:
+                        __dashboardUid__: eebutjlqdtds0b
+                        __panelId__: "6"
+                      isPaused: false
+                      notification_settings:
+                        receiver: Telegram
+                    - uid: cecdh1x4l3klcc
+                      title: RAM
+                      condition: C
+                      data:
+                        - refId: A
+                          relativeTimeRange:
+                            from: 10800
+                            to: 0
+                          datasourceUid: PBFA97CFB590B2093
+                          model:
+                            adhocFilters: []
+                            datasource:
+                                type: prometheus
+                                uid: PBFA97CFB590B2093
+                            exemplar: true
+                            expr: sum (container_memory_working_set_bytes{id="/",node=~"^.*$"}) / sum (machine_memory_bytes{node=~"^.*$"}) * 100
+                            format: time_series
+                            instant: true
+                            interval: 10s
+                            intervalFactor: 1
+                            intervalMs: 120000
+                            legendFormat: ""
+                            maxDataPoints: 100
+                            range: false
+                            refId: A
+                            step: 10
+                        - refId: C
+                          datasourceUid: __expr__
+                          model:
+                            conditions:
+                                - evaluator:
+                                    params:
+                                        - 80
+                                    type: gt
+                                  operator:
+                                    type: and
+                                  query:
+                                    params:
+                                        - C
+                                  reducer:
+                                    params: []
+                                    type: last
+                                  type: query
+                            datasource:
+                                type: __expr__
+                                uid: __expr__
+                            expression: A
+                            intervalMs: 1000
+                            maxDataPoints: 43200
+                            refId: C
+                            type: threshold
+                      dashboardUid: eebutjlqdtds0b
+                      panelId: 4
+                      noDataState: NoData
+                      execErrState: Error
+                      for: 5m
+                      annotations:
+                        __dashboardUid__: eebutjlqdtds0b
+                        __panelId__: "4"
+                      isPaused: false
+                      notification_settings:
+                        receiver: Telegram
+          contactpoints.yaml:
+            secret:
+              apiVersion: 1
+              contactPoints:
+                  - orgId: 1
+                    name: Telegram
+                    receivers:
+                      - uid: ceccpbysa92pse
+                        type: telegram
+                        settings:
+                          bottoken: ${telegram-token}
+                          chatid: |
+                                ${telegram-id}
+                          disable_notification: false
+                          disable_web_page_preview: false
+                          protect_content: false
+                        disableResolveMessage: false
+  destination:
+    server: {{ .Values.server }}
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

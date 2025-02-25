@@ -1,0 +1,42 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://argoproj.github.io/argo-helm'
+    chart: argo-cd
+    targetRevision: 7.8.5
+    helm:
+      values: |
+        global:
+          domain: argocd.{{ .Values.domain }}
+        certificate:
+          enabled: false
+        server:
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            tls: false
+        dex:
+          enabled: false
+        notifications:
+          enabled: false
+        applicationSet:
+          enabled: false
+        configs:
+          params:
+            server.insecure: true
+  destination:
+    server: {{ .Values.server }}
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

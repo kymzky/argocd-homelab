@@ -1,0 +1,35 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jellyfin
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://jellyfin.github.io/jellyfin-helm'
+    chart: jellyfin
+    targetRevision: 2.1.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          className: traefik
+          hosts:
+            - host: jellyfin.{{ .Values.domain }}
+              paths:
+                - path: /
+                  pathType: Prefix
+        persistence:
+          media:
+            existingClaim: media-stack-storage
+  destination:
+    server: {{ .Values.server }}
+    namespace: media-stack
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

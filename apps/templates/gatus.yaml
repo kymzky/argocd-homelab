@@ -1,0 +1,170 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gatus
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://twin.github.io/helm-charts'
+    chart: gatus
+    targetRevision: 1.2.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          ingressClassName: traefik
+          hosts:
+            - gatus.{{ .Values.domain }}
+        env:
+          TELEGRAM_ID:
+            valueFrom:
+              secretKeyRef:
+                name: telegram-secret
+                key: telegram-id
+          TELEGRAM_TOKEN:
+            valueFrom:
+              secretKeyRef:
+                name: telegram-secret
+                key: telegram-token
+        config:
+          alerting:
+            telegram:
+              id: "${TELEGRAM_ID}"
+              token: "${TELEGRAM_TOKEN}"
+              default-alert:
+                send-on-resolved: true
+                failure-threshold: 3
+                success-threshold: 1
+          endpoints:
+            - name: adguard
+              url: https://adguard.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: argocd
+              url: https://argocd.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: gatus
+              url: https://gatus.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: grafana
+              url: https://grafana.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: jellyfin
+              url: https://jellyfin.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: jellyseerr
+              url: https://jellyseerr.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: longhorn
+              url: https://longhorn.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: navidrome
+              url: https://navidrome.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: nextcloud
+              url: https://nextcloud.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: prometheus
+              url: https://prometheus.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: prowlarr
+              url: https://prowlarr.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: radarr
+              url: https://radarr.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: sabnzbd
+              url: https://sabnzbd.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: sonarr
+              url: https://sonarr.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+            - name: wireguard
+              url: https://wireguard.{{ .Values.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: true
+              alerts:
+                - type: telegram
+  destination:
+    server: {{ .Values.server }}
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

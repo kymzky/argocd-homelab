@@ -1,0 +1,42 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: navidrome
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: navidrome
+    targetRevision: 1.0.0
+    helm:
+      values: |
+        env:
+          ND_ENABLEINSIGHTSCOLLECTOR: "false"
+        ingress:
+          main:
+            enabled: true
+            ingressClassName: traefik
+            hosts:
+              - host: navidrome.{{ .Values.domain }}
+                paths:
+                  - path: /
+                    pathType: Prefix
+        persistence:
+          config:
+            enabled: true
+            storageClass: longhorn
+          music:
+            enabled: true
+            existingClaim: media-stack-storage
+  destination:
+    server: {{ .Values.server }}
+    namespace: media-stack
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,38 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: chatgpt-secret
+  namespace: monitoring
+spec:
+  encryptedData:
+    chatgpt-token: {{ .Values.telegrammy.encryptedChatgptToken }}
+  template:
+    metadata:
+      creationTimestamp: null
+      name: chatgpt-secret
+      namespace: monitoring
+    type: Opaque
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: telegrammy
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: telegrammy
+    targetRevision: 1.0.0
+  destination:
+    server: {{ .Values.server }}
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

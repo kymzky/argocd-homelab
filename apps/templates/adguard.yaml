@@ -1,0 +1,41 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adguard
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: adguard-home
+    targetRevision: 1.0.0
+    helm:
+      values: |
+        services:
+          dns:
+            type: LoadBalancer
+        ingresses:
+          http:
+            enabled: true
+            className: traefik
+            hosts:
+              - host: adguard.{{ .Values.domain }}
+                paths:
+                  - path: /
+                    pathType: Prefix
+        bootstrapConfig:
+          dns:
+            rewrites:
+              - domain: '*.{{ .Values.domain }}'
+                answer: {{ .Values.clusterIp }}
+  destination:
+    server: {{ .Values.server }}
+    namespace: adguard
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

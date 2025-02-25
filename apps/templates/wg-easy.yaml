@@ -1,0 +1,36 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wg-easy
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: wg-easy
+    targetRevision: 1.0.0
+    helm:
+      values: |
+        environmentVariables:
+          WG_HOST: wireguard.{{ .Values.domain }}
+        ingress:
+          enabled: true
+          className: traefik
+          hosts:
+            - host: wireguard.{{ .Values.domain }}
+              paths:
+                - path: /
+                  pathType: Prefix
+        volume:
+          className: longhorn
+  destination:
+    server: {{ .Values.server }}
+    namespace: wg-easy
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
