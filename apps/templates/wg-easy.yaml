@@ -14,7 +14,7 @@ spec:
     targetRevision: 1.1.0
     helm:
       values: |
-        environmentVariables:
+        env:
           WG_HOST: wireguard.{{ .Values.domain }}
         ingress:
           enabled: true
