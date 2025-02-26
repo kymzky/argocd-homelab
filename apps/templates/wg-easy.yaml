@@ -11,10 +11,10 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: wg-easy
-    targetRevision: 1.0.0
+    targetRevision: 1.1.0
     helm:
       values: |
-        environmentVariables:
+        env:
           WG_HOST: wireguard.{{ .Values.domain }}
         ingress:
           enabled: true
