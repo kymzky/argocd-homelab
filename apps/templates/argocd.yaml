@@ -16,6 +16,8 @@ spec:
       values: |
         global:
           domain: argocd.{{ .Values.config.domain }}
+        certificate:
+          enabled: false
         server:
           ingress:
             enabled: true
