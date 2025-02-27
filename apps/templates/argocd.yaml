@@ -29,7 +29,7 @@ spec:
           enabled: false
         configs:
           params:
-            server.insecure: {{ .Values.useTestCert }}
+            server.insecure: true
   destination:
     server: {{ .Values.server }}
     namespace: argocd
