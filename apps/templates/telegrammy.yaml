@@ -3,15 +3,15 @@ apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   creationTimestamp: null
-  name: chatgpt-secret
+  name: openai-secret
   namespace: monitoring
 spec:
   encryptedData:
-    chatgpt-token: {{ .Values.apps.telegrammy.encryptedChatgptToken }}
+    api-key: {{ .Values.apps.telegrammy.encryptedOpenAiApiKey }}
   template:
     metadata:
       creationTimestamp: null
-      name: chatgpt-secret
+      name: openai-secret
       namespace: monitoring
     type: Opaque
 ---
@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: telegrammy
-    targetRevision: 1.0.0
+    targetRevision: 1.1.0
   destination:
     server: {{ .Values.cluster.server }}
     namespace: monitoring
