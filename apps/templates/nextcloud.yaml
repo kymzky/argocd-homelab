@@ -47,6 +47,15 @@ spec:
             secretName: nextcloud-secret
             usernameKey: username
             passwordKey: password
+          extraVolumes:
+            - name: nfs
+              nfs:
+                server: "{{ .Values.apps.nfsProvisioner.server }}"
+                path: "{{ .Values.apps.nfsProvisioner.path }}"
+                readOnly: false
+          extraVolumeMounts:
+            - name: nfs
+              mountPath: "/nfs"
         externalDatabase:
           enabled: true
           type: postgresql
