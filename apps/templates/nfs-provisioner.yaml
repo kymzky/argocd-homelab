@@ -15,10 +15,10 @@ spec:
     helm:
       values: |
         nfs:
-          server: "{{ .Values.nfsProvisioner.server }}"
-          path: "{{ .Values.nfsProvisioner.path }}"
+          server: "{{ .Values.apps.nfsProvisioner.server }}"
+          path: "{{ .Values.apps.nfsProvisioner.path }}"
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: nfs-provisioner
   syncPolicy:
     automated:

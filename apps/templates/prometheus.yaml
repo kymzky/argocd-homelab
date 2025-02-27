@@ -19,11 +19,11 @@ spec:
             enabled: true
             ingressClassName: traefik
             hosts:
-              - prometheus.{{ .Values.domain }}
+              - prometheus.{{ .Values.config.domain }}
           persistentVolume:
             storageClass: longhorn
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: monitoring
   syncPolicy:
     automated:

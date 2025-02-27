@@ -15,19 +15,19 @@ spec:
     helm:
       values: |
         env:
-          WG_HOST: wireguard.{{ .Values.domain }}
+          WG_HOST: wireguard.{{ .Values.config.domain }}
         ingress:
           enabled: true
           className: traefik
           hosts:
-            - host: wireguard.{{ .Values.domain }}
+            - host: wireguard.{{ .Values.config.domain }}
               paths:
                 - path: /
                   pathType: Prefix
         volume:
           className: longhorn
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: wg-easy
   syncPolicy:
     automated:

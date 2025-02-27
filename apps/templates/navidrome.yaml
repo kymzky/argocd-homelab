@@ -21,7 +21,7 @@ spec:
             enabled: true
             ingressClassName: traefik
             hosts:
-              - host: navidrome.{{ .Values.domain }}
+              - host: navidrome.{{ .Values.config.domain }}
                 paths:
                   - path: /
                     pathType: Prefix
@@ -33,7 +33,7 @@ spec:
             enabled: true
             existingClaim: media-stack-storage
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: media-stack
   syncPolicy:
     automated:

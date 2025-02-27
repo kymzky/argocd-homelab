@@ -10,4 +10,4 @@ spec:
   storageClassName: nfs-client
   resources:
     requests:
-      storage: {{ .Values.mediaStackStorageSize }}
+      storage: {{ .Values.config.mediaStackStorageSize }}

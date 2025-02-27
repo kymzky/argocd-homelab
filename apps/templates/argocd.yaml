@@ -15,7 +15,7 @@ spec:
     helm:
       values: |
         global:
-          domain: argocd.{{ .Values.domain }}
+          domain: argocd.{{ .Values.config.domain }}
         server:
           ingress:
             enabled: true
@@ -31,7 +31,7 @@ spec:
           params:
             server.insecure: true
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: argocd
   syncPolicy:
     automated:

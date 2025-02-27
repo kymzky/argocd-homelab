@@ -17,11 +17,11 @@ spec:
         ingress:
           enabled: true
           ingressClassName: traefik
-          host: longhorn.{{ .Values.domain }}
+          host: longhorn.{{ .Values.config.domain }}
         preUpgradeChecker:
           jobEnabled: false
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: longhorn-system
   syncPolicy:
     automated:

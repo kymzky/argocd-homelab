@@ -7,7 +7,7 @@ metadata:
   namespace: monitoring
 spec:
   encryptedData:
-    chatgpt-token: {{ .Values.telegrammy.encryptedChatgptToken }}
+    chatgpt-token: {{ .Values.apps.telegrammy.encryptedChatgptToken }}
   template:
     metadata:
       creationTimestamp: null
@@ -29,7 +29,7 @@ spec:
     chart: telegrammy
     targetRevision: 1.0.0
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: monitoring
   syncPolicy:
     automated:

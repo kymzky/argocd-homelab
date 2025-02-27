@@ -18,14 +18,14 @@ spec:
           enabled: true
           className: traefik
           hosts:
-            - host: radarr.{{ .Values.domain }}
+            - host: radarr.{{ .Values.config.domain }}
               paths:
                 - path: /
                   pathType: Prefix
         persistence:
           storageClass: longhorn
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: media-stack
   syncPolicy:
     automated:

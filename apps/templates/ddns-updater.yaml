@@ -8,7 +8,7 @@ metadata:
   namespace: ddns-updater
 spec:
   encryptedData:
-    config: {{ .Values.ddnsUpdater.encryptedConfig }}
+    config: {{ .Values.apps.ddnsUpdater.encryptedConfig }}
   template:
     metadata:
       creationTimestamp: null
@@ -35,12 +35,12 @@ spec:
           enabled: true
           className: traefik
           hosts:
-            - host: ddnsupdater.{{ .Values.domain }}
+            - host: ddnsupdater.{{ .Values.config.domain }}
               paths:
                 - path: /
                   pathType: Prefix
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: ddns-updater
   syncPolicy:
     automated:

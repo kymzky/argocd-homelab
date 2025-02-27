@@ -18,7 +18,7 @@ spec:
           enabled: true
           ingressClassName: traefik
           hosts:
-            - gatus.{{ .Values.domain }}
+            - gatus.{{ .Values.config.domain }}
         env:
           TELEGRAM_ID:
             valueFrom:
@@ -41,127 +41,127 @@ spec:
                 success-threshold: 1
           endpoints:
             - name: adguard
-              url: https://adguard.{{ .Values.domain }}
+              url: https://adguard.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: argocd
-              url: https://argocd.{{ .Values.domain }}
+              url: https://argocd.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: gatus
-              url: https://gatus.{{ .Values.domain }}
+              url: https://gatus.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: grafana
-              url: https://grafana.{{ .Values.domain }}
+              url: https://grafana.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: jellyfin
-              url: https://jellyfin.{{ .Values.domain }}
+              url: https://jellyfin.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: jellyseerr
-              url: https://jellyseerr.{{ .Values.domain }}
+              url: https://jellyseerr.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: longhorn
-              url: https://longhorn.{{ .Values.domain }}
+              url: https://longhorn.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: navidrome
-              url: https://navidrome.{{ .Values.domain }}
+              url: https://navidrome.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: nextcloud
-              url: https://nextcloud.{{ .Values.domain }}
+              url: https://nextcloud.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: prometheus
-              url: https://prometheus.{{ .Values.domain }}
+              url: https://prometheus.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: prowlarr
-              url: https://prowlarr.{{ .Values.domain }}
+              url: https://prowlarr.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: radarr
-              url: https://radarr.{{ .Values.domain }}
+              url: https://radarr.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: sabnzbd
-              url: https://sabnzbd.{{ .Values.domain }}
+              url: https://sabnzbd.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: sonarr
-              url: https://sonarr.{{ .Values.domain }}
+              url: https://sonarr.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
             - name: wireguard
-              url: https://wireguard.{{ .Values.domain }}
+              url: https://wireguard.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: {{ .Values.useTestCert }}
+                insecure: {{ .Values.config.useTestCert }}
               alerts:
                 - type: telegram
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: monitoring
   syncPolicy:
     automated:

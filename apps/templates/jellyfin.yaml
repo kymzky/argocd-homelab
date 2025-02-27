@@ -18,7 +18,7 @@ spec:
           enabled: true
           className: traefik
           hosts:
-            - host: jellyfin.{{ .Values.domain }}
+            - host: jellyfin.{{ .Values.config.domain }}
               paths:
                 - path: /
                   pathType: Prefix
@@ -28,7 +28,7 @@ spec:
           media:
             existingClaim: media-stack-storage
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: media-stack
   syncPolicy:
     automated:

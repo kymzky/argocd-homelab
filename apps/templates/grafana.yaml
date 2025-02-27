@@ -7,8 +7,8 @@ metadata:
   namespace: monitoring
 spec:
   encryptedData:
-    admin-password: {{ .Values.grafana.encryptedPassword }}
-    admin-user: {{ .Values.grafana.encryptedUsername }}
+    admin-password: {{ .Values.apps.grafana.encryptedPassword }}
+    admin-user: {{ .Values.apps.grafana.encryptedUsername }}
   template:
     metadata:
       creationTimestamp: null
@@ -35,11 +35,11 @@ spec:
           enabled: true
           ingressClassName: traefik
           hosts:
-            - grafana.{{ .Values.domain }}
+            - grafana.{{ .Values.config.domain }}
         persistence:
           enabled: true
           storageClassName: longhorn
-          size: {{ .Values.grafana.diskSize }}
+          size: {{ .Values.apps.grafana.diskSize }}
         admin:
           existingSecret: grafana-secret
         sidecar:
@@ -56,11 +56,11 @@ spec:
             datasources:
             - name: Prometheus
               type: prometheus
-              url: https://prometheus.{{ .Values.domain }}
+              url: https://prometheus.{{ .Values.config.domain }}
               access: proxy
               isDefault: true
               jsonData:
-                tlsSkipVerify: {{ .Values.useTestCert }}
+                tlsSkipVerify: {{ .Values.config.useTestCert }}
         alerting:
           rules.yaml:
             apiVersion: 1
@@ -277,7 +277,7 @@ spec:
                           protect_content: false
                         disableResolveMessage: false
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: monitoring
   syncPolicy:
     automated:

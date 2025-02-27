@@ -22,17 +22,17 @@ spec:
             enabled: true
             className: traefik
             hosts:
-              - host: adguard.{{ .Values.domain }}
+              - host: adguard.{{ .Values.config.domain }}
                 paths:
                   - path: /
                     pathType: Prefix
         bootstrapConfig:
           dns:
             rewrites:
-              - domain: '*.{{ .Values.domain }}'
-                answer: {{ .Values.clusterIp }}
+              - domain: '*.{{ .Values.config.domain }}'
+                answer: {{ .Values.cluster.ip }}
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: adguard
   syncPolicy:
     automated:

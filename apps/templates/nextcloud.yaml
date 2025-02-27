@@ -7,10 +7,10 @@ metadata:
   namespace: nextcloud
 spec:
   encryptedData:
-    password: {{ .Values.nextcloud.encryptedPassword }}
-    postgres-password: {{ .Values.nextcloud.postgresEncryptedPassword }}
-    postgres-username: {{ .Values.nextcloud.postgresEncryptedUsername }}
-    username: {{ .Values.nextcloud.encryptedUsername }}
+    password: {{ .Values.apps.nextcloud.encryptedPassword }}
+    postgres-password: {{ .Values.apps.nextcloud.postgresEncryptedPassword }}
+    postgres-username: {{ .Values.apps.nextcloud.postgresEncryptedUsername }}
+    username: {{ .Values.apps.nextcloud.encryptedUsername }}
   template:
     metadata:
       creationTimestamp: null
@@ -36,12 +36,12 @@ spec:
         persistence:
           enabled: true
           storageClass: longhorn
-          size: {{ .Values.nextcloud.diskSize }}
+          size: {{ .Values.apps.nextcloud.diskSize }}
         ingress:
           enabled: true
           className: traefik
         nextcloud:
-          host: nextcloud.{{ .Values.domain }}
+          host: nextcloud.{{ .Values.config.domain }}
           existingSecret:
             enabled: true
             secretName: nextcloud-secret
@@ -68,7 +68,7 @@ spec:
               enabled: true
               storageClass: longhorn
   destination:
-    server: {{ .Values.server }}
+    server: {{ .Values.cluster.server }}
     namespace: nextcloud
   syncPolicy:
     automated:
