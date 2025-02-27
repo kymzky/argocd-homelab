@@ -45,7 +45,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: argocd
@@ -53,7 +53,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: gatus
@@ -61,7 +61,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: grafana
@@ -69,7 +69,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: jellyfin
@@ -77,7 +77,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: jellyseerr
@@ -85,7 +85,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: longhorn
@@ -93,7 +93,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: navidrome
@@ -101,7 +101,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: nextcloud
@@ -109,7 +109,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: prometheus
@@ -117,7 +117,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: prowlarr
@@ -125,7 +125,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: radarr
@@ -133,7 +133,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: sabnzbd
@@ -141,7 +141,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: sonarr
@@ -149,7 +149,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
             - name: wireguard
@@ -157,7 +157,7 @@ spec:
               conditions:
                 - "[STATUS] == 200"
               client:
-                insecure: true
+                insecure: {{ .Values.useTestCert }}
               alerts:
                 - type: telegram
   destination:

@@ -16,8 +16,6 @@ spec:
       values: |
         global:
           domain: argocd.{{ .Values.domain }}
-        certificate:
-          enabled: false
         server:
           ingress:
             enabled: true
@@ -31,7 +29,7 @@ spec:
           enabled: false
         configs:
           params:
-            server.insecure: true
+            server.insecure: {{ .Values.useTestCert }}
   destination:
     server: {{ .Values.server }}
     namespace: argocd

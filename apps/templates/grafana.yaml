@@ -60,7 +60,7 @@ spec:
               access: proxy
               isDefault: true
               jsonData:
-                tlsSkipVerify: true
+                tlsSkipVerify: {{ .Values.useTestCert }}
         alerting:
           rules.yaml:
             apiVersion: 1
