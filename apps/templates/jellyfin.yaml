@@ -23,6 +23,8 @@ spec:
                 - path: /
                   pathType: Prefix
         persistence:
+          config:
+            storageClass: longhorn
           media:
             existingClaim: media-stack-storage
   destination:
