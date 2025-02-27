@@ -1,4 +1,20 @@
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: wireguard-secret
+  namespace: wg-easy
+spec:
+  encryptedData:
+    passwordHash: {{ .Values.wgEasy.encryptedPasswordHash }}
+  template:
+    metadata:
+      creationTimestamp: null
+      name: wireguard-secret
+      namespace: wg-easy
+    type: Opaque
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -11,7 +27,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: wg-easy
-    targetRevision: 1.1.0
+    targetRevision: 1.2.0
     helm:
       values: |
         env:
