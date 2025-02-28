@@ -28,6 +28,11 @@ spec:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: telegrammy
     targetRevision: 1.2.0
+    helm:
+      values: |
+        persistence:
+          enabled: true
+          storageClass: longhorn
   destination:
     server: {{ .Values.cluster.server }}
     namespace: monitoring
