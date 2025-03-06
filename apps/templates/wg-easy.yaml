@@ -32,6 +32,8 @@ spec:
       values: |
         env:
           WG_HOST: wireguard.{{ .Values.config.domain }}
+        service:
+          type: LoadBalancer
         ingress:
           enabled: true
           className: traefik
