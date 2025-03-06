@@ -39,6 +39,8 @@ spec:
               paths:
                 - path: /
                   pathType: Prefix
+        livenessProbe: null
+        readinessProbe: null
   destination:
     server: {{ .Values.cluster.server }}
     namespace: ddns-updater
