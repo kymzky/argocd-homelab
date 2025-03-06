@@ -55,6 +55,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: gatus
@@ -63,6 +64,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: grafana
@@ -71,6 +73,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: jellyfin
@@ -79,6 +82,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: jellyseerr
@@ -87,6 +91,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: longhorn
@@ -95,6 +100,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: navidrome
@@ -103,6 +109,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: nextcloud
@@ -111,6 +118,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: prometheus
@@ -119,6 +127,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: prowlarr
@@ -127,6 +136,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: radarr
@@ -135,6 +145,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: sabnzbd
@@ -143,6 +154,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: sonarr
@@ -151,6 +163,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: wireguard
@@ -159,6 +172,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
   destination:
