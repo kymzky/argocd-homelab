@@ -1,4 +1,4 @@
-{{- if hasKey .Values "ddnsUpdater" }}
+{{- if hasKey .Values.apps "ddnsUpdater" }}
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
