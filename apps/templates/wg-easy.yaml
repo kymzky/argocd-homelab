@@ -7,7 +7,7 @@ metadata:
   namespace: wg-easy
 spec:
   encryptedData:
-    passwordHash: {{ .Values.apps.wgEasy.encryptedPasswordHash }}
+    password-hash: {{ .Values.apps.wgEasy.encryptedPasswordHash }}
   template:
     metadata:
       creationTimestamp: null
