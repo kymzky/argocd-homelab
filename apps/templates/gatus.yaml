@@ -46,6 +46,7 @@ spec:
                 - "[STATUS] == 200"
               client:
                 insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: argocd
