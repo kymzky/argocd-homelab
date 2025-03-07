@@ -12,3 +12,9 @@ data:
               fallthrough
         }
     }
+    qbittorrent {
+        hosts {
+              {{ .Values.cluster.ip }} qbittorrent
+              fallthrough
+        }
+    }
