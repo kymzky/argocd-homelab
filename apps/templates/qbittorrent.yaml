@@ -18,6 +18,10 @@ spec:
           enabled: true
           className: traefik
           hosts:
+            - host: qbittorrent
+              paths:
+                - path: /
+                  pathType: Prefix
             - host: qbittorrent.{{ .Values.config.domain }}
               paths:
                 - path: /
