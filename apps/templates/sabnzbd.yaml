@@ -36,7 +36,7 @@ spec:
               command:
                 - sh
                 - -c
-                - sed -i -e "s/^host_whitelist *=.*$/host_whitelist = sabnzbd.{{ .Values.config.domain }}/g" /config/sabnzbd.ini
+                - sed -i -e "s/^host_whitelist *=.*$/host_whitelist = sabnzbd,sabnzbd.{{ .Values.config.domain }}/g" /config/sabnzbd.ini
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-stack
