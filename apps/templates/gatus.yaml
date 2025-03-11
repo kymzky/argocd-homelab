@@ -76,24 +76,6 @@ spec:
                 dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
-            - name: jellyfin
-              url: https://jellyfin.{{ .Values.config.domain }}
-              conditions:
-                - "[STATUS] == 200"
-              client:
-                insecure: {{ .Values.config.useTestCert }}
-                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
-              alerts:
-                - type: telegram
-            - name: jellyseerr
-              url: https://jellyseerr.{{ .Values.config.domain }}
-              conditions:
-                - "[STATUS] == 200"
-              client:
-                insecure: {{ .Values.config.useTestCert }}
-                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
-              alerts:
-                - type: telegram
             - name: longhorn
               url: https://longhorn.{{ .Values.config.domain }}
               conditions:
@@ -123,42 +105,6 @@ spec:
                 - type: telegram
             - name: prometheus
               url: https://prometheus.{{ .Values.config.domain }}
-              conditions:
-                - "[STATUS] == 200"
-              client:
-                insecure: {{ .Values.config.useTestCert }}
-                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
-              alerts:
-                - type: telegram
-            - name: prowlarr
-              url: https://prowlarr.{{ .Values.config.domain }}
-              conditions:
-                - "[STATUS] == 200"
-              client:
-                insecure: {{ .Values.config.useTestCert }}
-                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
-              alerts:
-                - type: telegram
-            - name: radarr
-              url: https://radarr.{{ .Values.config.domain }}
-              conditions:
-                - "[STATUS] == 200"
-              client:
-                insecure: {{ .Values.config.useTestCert }}
-                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
-              alerts:
-                - type: telegram
-            - name: sabnzbd
-              url: https://sabnzbd.{{ .Values.config.domain }}
-              conditions:
-                - "[STATUS] == 200"
-              client:
-                insecure: {{ .Values.config.useTestCert }}
-                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
-              alerts:
-                - type: telegram
-            - name: sonarr
-              url: https://sonarr.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:

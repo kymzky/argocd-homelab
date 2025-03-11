@@ -31,10 +31,10 @@ spec:
             storageClass: longhorn
           music:
             enabled: true
-            existingClaim: media-stack-storage
+            existingClaim: media-services-storage
   destination:
     server: {{ .Values.cluster.server }}
-    namespace: media-stack
+    namespace: media-services
   syncPolicy:
     automated:
       prune: true

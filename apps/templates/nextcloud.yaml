@@ -4,7 +4,7 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: nextcloud-secret
-  namespace: nextcloud
+  namespace: media-services
 spec:
   encryptedData:
     password: {{ .Values.apps.nextcloud.encryptedPassword }}
@@ -15,7 +15,7 @@ spec:
     metadata:
       creationTimestamp: null
       name: nextcloud-secret
-      namespace: nextcloud
+      namespace: media-services
     type: Opaque
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -36,7 +36,9 @@ spec:
         persistence:
           enabled: true
           storageClass: longhorn
-          size: {{ .Values.apps.nextcloud.diskSize }}
+          nextcloudData:
+            enabled: true
+            existingClaim: media-services-storage
         ingress:
           enabled: true
           className: traefik
@@ -53,7 +55,6 @@ spec:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
               post_max_size: 15G
-
         externalDatabase:
           enabled: true
           type: postgresql
@@ -76,7 +77,7 @@ spec:
               storageClass: longhorn
   destination:
     server: {{ .Values.cluster.server }}
-    namespace: nextcloud
+    namespace: media-services
   syncPolicy:
     automated:
       prune: true

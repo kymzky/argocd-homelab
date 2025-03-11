@@ -18,18 +18,11 @@ for a simple deployment via Argo CD.
 - [ddns-updater](https://github.com/qdm12/ddns-updater)
 - [Gatus](https://gatus.io/)
 - [Grafana](https://grafana.com/)
-- [Jellyfin](https://jellyfin.org/)
-- [Jellyseerr](https://github.com/Fallenbagel/jellyseerr)
 - [Longhorn](https://longhorn.io/)
 - [Navidrome](https://www.navidrome.org/)
 - [Nextcloud](https://nextcloud.com/)
 - [Prometheus](https://prometheus.io/)
-- [Prowlarr](https://prowlarr.com/)
-- [qBittorrent](https://www.qbittorrent.org/)
-- [Radarr](https://radarr.video/)
-- [SABnzbd](https://sabnzbd.org/)
 - [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)
-- [Sonarr](https://sonarr.tv/)
 - [telegrammy](https://github.com/kymzky/telegrammy)
 - [wg-easy](https://github.com/wg-easy/wg-easy)
 
@@ -37,15 +30,6 @@ for a simple deployment via Argo CD.
 
 To see an example of how to create a suitable Kubernetes cluster and deploy
 this repository in it, see [ansible-homelab](https://github.com/kymzky/ansible-homelab).
-
-### Post-deployment steps
-
-While most applications are preconfigured as far as it is reasonable, this does
-not apply to the ARR stack. This means that Jellyfin, Jellyseerr, Navidrome,
-Prowlarr, qBittorrent, Radarr, SABnzbd and Sonarr must be set up initially via
-their respective web interfaces.
-
-*Note: The initial password for qBittorrent can be found in the pod's logs.*
 
 ### Add new application
 
@@ -55,13 +39,13 @@ To deploy a new application into the cluster follow these steps:
 2. Set environment-specific parameters in value files ([multipass](./apps/values-multipass.yaml)/[prod](./apps/values-prod.yaml))
 3. Add the endpoints to be monitored to the [Gatus configuration](./apps/templates/gatus.yaml)
 4. If you are deploying to a development environment without DNS add necessary
-entries to your /etc/hosts file
+   entries to your /etc/hosts file
 5. Write the required YAML files for the new application in the [templates](./apps/templates/)
-directory
+   directory
 6. Commit and push changes to trigger Argo CD to deploy the application
 7. Check if Renovate's [Dependency Dashboard](https://github.com/kymzky/argocd-homelab/issues/2)
-has correctly identified all dependencies and versions (customize [renovate.json](./renovate.json)
-if not)
+   has correctly identified all dependencies and versions (customize [renovate.json](./renovate.json)
+   if not)
 8. Update [README.md](./README.md)
 
 #### Create a SealedSecret
@@ -69,9 +53,9 @@ if not)
 To encrypt a secret using sealed-secrets, proceed as follows:
 
 1. Create a YAML file defining the Secret with the desired key-value-pairs (see
-template below)
+   template below)
 2. Copy the output of `kubeseal --format yaml < <PATH_TO_SECRET_YAML>` to a
-suitable location within this repository
+   suitable location within this repository
 3. Customize the desired application(s) to use the new SealedSecret
 4. Push & Sync
 
