@@ -38,6 +38,7 @@ spec:
           storageClass: longhorn
           nextcloudData:
             enabled: true
+            subPath: nextcloud
             existingClaim: media-services-storage
         ingress:
           enabled: true
