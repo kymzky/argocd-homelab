@@ -55,6 +55,8 @@ spec:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
               post_max_size: 15G
+        internalDatabase:
+          enabled: false
         externalDatabase:
           enabled: true
           type: postgresql
