@@ -52,15 +52,6 @@ spec:
             secretName: nextcloud-secret
             usernameKey: username
             passwordKey: password
-          configs:
-            logging.config.php: |-
-              <?php
-              $CONFIG = array (
-                'log_type' => 'file',
-                'logfile' => 'nextcloud.log',
-                'loglevel' => 0,
-                'logdateformat' => 'F d, Y H:i:s'
-                );
           phpConfigs:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
