@@ -32,6 +32,7 @@ spec:
           music:
             enabled: true
             existingClaim: media-services-storage
+            subPath: nextcloud/data/daniel/files/Musik/Bibliothek
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
