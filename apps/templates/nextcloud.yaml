@@ -56,6 +56,28 @@ spec:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
               post_max_size: 15G
+        internalDatabase:
+          enabled: false
+        externalDatabase:
+          enabled: true
+          type: postgresql
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secret
+            usernameKey: postgres-username
+            passwordKey: postgres-password
+        postgresql:
+          enabled: true
+          global:
+            postgresql:
+              auth:
+                existingSecret: nextcloud-secret
+                secretKeys:
+                  userPasswordKey: postgres-password
+          primary:
+            persistence:
+              enabled: true
+              storageClass: longhorn
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
