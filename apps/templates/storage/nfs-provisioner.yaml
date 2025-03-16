@@ -2,27 +2,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: longhorn
+  name: nfs-provisioner
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'https://charts.longhorn.io'
-    chart: longhorn
-    targetRevision: 1.8.1
+    repoURL: 'https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner'
+    chart: nfs-subdir-external-provisioner
+    targetRevision: 4.0.18
     helm:
       values: |
-        ingress:
-          enabled: true
-          ingressClassName: traefik
-          host: longhorn.{{ .Values.config.domain }}
-        preUpgradeChecker:
-          jobEnabled: false
+        nfs:
+          server: "{{ .Values.apps.nfsProvisioner.server }}"
+          path: "{{ .Values.apps.nfsProvisioner.path }}"
   destination:
     server: {{ .Values.cluster.server }}
-    namespace: longhorn-system
+    namespace: storage
   syncPolicy:
     automated:
       prune: true
