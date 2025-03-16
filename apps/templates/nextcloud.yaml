@@ -56,12 +56,6 @@ spec:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
               post_max_size: 15G
-          configs:
-            logging.config.php: |-
-              <?php
-              $CONFIG = array (
-                'loglevel' => 0,
-                );
         externalDatabase:
           enabled: true
           type: postgresql
