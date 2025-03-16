@@ -30,7 +30,7 @@ spec:
   source:
     repoURL: 'https://nextcloud.github.io/helm'
     chart: nextcloud
-    targetRevision: 6.6.9
+    targetRevision: 6.5.2
     helm:
       values: |
         persistence:
@@ -62,15 +62,6 @@ spec:
               $CONFIG = array (
                 'loglevel' => 0,
                 );
-        livenessProbe:
-          enabled: true
-          initialDelaySeconds: 60
-          periodSeconds: 30
-          failureThreshold: 10
-        startupProbe:
-          enabled: true
-          periodSeconds: 30
-          failureThreshold: 10
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
