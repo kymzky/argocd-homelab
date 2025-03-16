@@ -1,4 +1,23 @@
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: nextcloud-secret
+  namespace: media-services
+spec:
+  encryptedData:
+    password: {{ .Values.apps.nextcloud.encryptedPassword }}
+    postgres-password: {{ .Values.apps.nextcloud.postgresEncryptedPassword }}
+    postgres-username: {{ .Values.apps.nextcloud.postgresEncryptedUsername }}
+    username: {{ .Values.apps.nextcloud.encryptedUsername }}
+  template:
+    metadata:
+      creationTimestamp: null
+      name: nextcloud-secret
+      namespace: media-services
+    type: Opaque
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -28,6 +47,11 @@ spec:
           enabled: true
         nextcloud:
           host: nextcloud.{{ .Values.config.domain }}
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secret
+            usernameKey: username
+            passwordKey: password
           phpConfigs:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
