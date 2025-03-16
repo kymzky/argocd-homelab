@@ -33,7 +33,7 @@ spec:
                 answer: {{ .Values.cluster.ip }}
   destination:
     server: {{ .Values.cluster.server }}
-    namespace: infrastructure
+    namespace: adguard
   syncPolicy:
     automated:
       prune: true

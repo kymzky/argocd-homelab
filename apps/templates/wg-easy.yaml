@@ -1,25 +1,24 @@
-{{- if hasKey .Values.apps "ddnsUpdater" }}
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   creationTimestamp: null
-  name: ddns-updater-secret
-  namespace: infrastructure
+  name: wireguard-secret
+  namespace: wg-easy
 spec:
   encryptedData:
-    config: {{ .Values.apps.ddnsUpdater.encryptedConfig }}
+    password-hash: {{ .Values.apps.wgEasy.encryptedPasswordHash }}
   template:
     metadata:
       creationTimestamp: null
-      name: ddns-updater-secret
-      namespace: infrastructure
+      name: wireguard-secret
+      namespace: wg-easy
     type: Opaque
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ddns-updater
+  name: wg-easy
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -27,26 +26,29 @@ spec:
   project: default
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
-    chart: ddns-updater
-    targetRevision: 1.0.0
+    chart: wg-easy
+    targetRevision: 1.3.0
     helm:
       values: |
+        env:
+          WG_HOST: wireguard.{{ .Values.config.domain }}
+        service:
+          type: LoadBalancer
         ingress:
           enabled: true
           className: traefik
           hosts:
-            - host: ddnsupdater.{{ .Values.config.domain }}
+            - host: wireguard.{{ .Values.config.domain }}
               paths:
                 - path: /
                   pathType: Prefix
-        livenessProbe: null
-        readinessProbe: null
+        volume:
+          className: longhorn
   destination:
     server: {{ .Values.cluster.server }}
-    namespace: infrastructure
+    namespace: wg-easy
   syncPolicy:
     automated:
       prune: true
     syncOptions:
       - CreateNamespace=true
-{{- end }}
