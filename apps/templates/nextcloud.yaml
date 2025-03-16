@@ -52,8 +52,6 @@ spec:
             secretName: nextcloud-secret
             usernameKey: username
             passwordKey: password
-          persistence:
-            subPath: nextcloud
           phpConfigs:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
