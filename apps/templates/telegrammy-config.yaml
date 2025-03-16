@@ -26,5 +26,5 @@ data:
     cronJobs:
 
       - schedule: "20 16 * * *"
-        message: "Alive"
+        message: "{{ .Values.apps.telegrammy.grafanaDashboardUrl }}"
         parseMode: HTML
