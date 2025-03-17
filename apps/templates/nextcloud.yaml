@@ -62,6 +62,8 @@ spec:
               $CONFIG = array (
                 'allow_local_remote_servers' => true,
               );
+        internalDatabase:
+          enabled: false
         externalDatabase:
           enabled: true
           type: postgresql
