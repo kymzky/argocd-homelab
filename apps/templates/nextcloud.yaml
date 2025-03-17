@@ -56,12 +56,6 @@ spec:
             zz-filesize.ini: |-
               upload_max_filesize: 15G
               post_max_size: 15G
-          configs:
-            allow_local_remote_servers.config.php: |-
-              <?php
-              $CONFIG = array (
-                'allow_local_remote_servers' => true,
-              );
         internalDatabase:
           enabled: false
         externalDatabase:
