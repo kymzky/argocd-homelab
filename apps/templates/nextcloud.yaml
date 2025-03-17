@@ -50,6 +50,15 @@ spec:
             secretName: nextcloud-secret
             usernameKey: username
             passwordKey: password
+          phpConfigs:
+            allow_local_remote_servers.config.php: |-
+              <?php
+              $CONFIG = array (
+                'allow_local_remote_servers' => true,
+              );
+            zz-filesize.ini: |-
+              upload_max_filesize: 15G
+              post_max_size: 15G
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
