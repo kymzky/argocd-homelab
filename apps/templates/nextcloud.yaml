@@ -52,21 +52,6 @@ spec:
             secretName: nextcloud-secret
             usernameKey: username
             passwordKey: password
-        internalDatabase:
-          enabled: false
-        externalDatabase:
-          enabled: true
-          type: mysql
-          host: nextcloud-mysql
-          database: nextcloud
-          user: nextcloud
-          password: password
-        mariadb:
-          enabled: true
-          auth:
-            database: nextcloud
-            username: nextcloud
-            password: password
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
