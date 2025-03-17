@@ -43,8 +43,6 @@ spec:
         ingress:
           enabled: true
           className: traefik
-        phpClientHttpsFix:
-          enabled: true
         nextcloud:
           host: nextcloud.{{ .Values.config.domain }}
           existingSecret:
