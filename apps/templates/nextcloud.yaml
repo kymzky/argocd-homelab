@@ -8,8 +8,6 @@ metadata:
 spec:
   encryptedData:
     password: {{ .Values.apps.nextcloud.encryptedPassword }}
-    postgres-password: {{ .Values.apps.nextcloud.postgresEncryptedPassword }}
-    postgres-username: {{ .Values.apps.nextcloud.postgresEncryptedUsername }}
     username: {{ .Values.apps.nextcloud.encryptedUsername }}
   template:
     metadata:
