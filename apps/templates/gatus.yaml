@@ -104,11 +104,12 @@ spec:
               alerts:
                 - type: telegram
             - name: openmediavault
-              url: http://{{ .Values.apps.nfsProvisioner.server }}
+              url: http://openmediavault.{{ .Values.config.domain }}
               conditions:
                 - "[STATUS] == 200"
               client:
                 insecure: true
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
             - name: prometheus
