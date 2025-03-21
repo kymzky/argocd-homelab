@@ -29,6 +29,8 @@ spec:
         bootstrapConfig:
           dns:
             rewrites:
+              - domain: 'openmediavault.{{ .Values.config.domain }}'
+                answer: {{ .Values.apps.nfsProvisioner.server }}
               - domain: '*.{{ .Values.config.domain }}'
                 answer: {{ .Values.cluster.ip }}
   destination:
