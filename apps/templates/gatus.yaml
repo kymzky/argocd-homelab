@@ -76,6 +76,15 @@ spec:
                 dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
+            - name: home-assistant
+              url: https://homeassistant.{{ .Values.config.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
+              alerts:
+                - type: telegram
             - name: longhorn
               url: https://longhorn.{{ .Values.config.domain }}
               conditions:

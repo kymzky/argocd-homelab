@@ -1,0 +1,46 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: home-assistant
+    targetRevision: 1.0.0
+    helm:
+      values: |
+        env:
+          - name: TZ
+            value: Europe/Belin
+        dnsConfig:
+          nameservers:
+            - {{ .Values.cluster.ip }}
+        ingress:
+          enabled: true
+          className: traefik
+          hosts:
+            - host: homeassistant.{{ .Values.config.domain }}
+              paths:
+                - path: /
+                  pathType: Prefix
+        persistence:
+          enabled: true
+          storageClass: longhorn
+        configuration:
+          enabled: true
+          trusted_proxies:
+            - 10.0.0.0/8
+            - 192.168.0.0/16
+  destination:
+    server: {{ .Values.cluster.server }}
+    namespace: home-assistant
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
