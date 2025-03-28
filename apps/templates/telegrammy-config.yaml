@@ -13,7 +13,7 @@ data:
     initCommand: |
       apk add openssh git ansible
       mkdir ~/.ssh
-      echo $SSH_PRIVATE_KEY > ~/.ssh/id_ed25519
+      echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_ed25519
       chmod 400 ~/.ssh/id_ed25519
       echo $ANSIBLE_VAULT_PASS > ~/.vault-pass
 
