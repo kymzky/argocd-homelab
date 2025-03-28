@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: telegrammy
-    targetRevision: 1.4.0
+    targetRevision: 1.4.1
     helm:
       values: |
         persistence:
