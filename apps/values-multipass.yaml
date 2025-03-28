@@ -1,4 +1,5 @@
 ---
+name: multipass
 apps:
   grafana:
     diskSize: 500Mi

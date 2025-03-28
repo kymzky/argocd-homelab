@@ -30,36 +30,36 @@ data:
         command: "rm -f /etc/telegrammy/conversation"
         message: "ChatGPT conversation reset"
 
-      - trigger: "Update"
-        command: |
-          git clone --quiet https://github.com/kymzky/ansible-homelab.git
-          cd ansible-homelab
-          echo "[defaults]
-          host_key_checking = False" > ansible.cfg
-          git pull --quiet
-          ansible-playbook -i inventory/prod.yaml playbooks/update.yaml > /tmp/ansible.log
-          cat /tmp/ansible.log
-        message: "Update:\n```\n%s```"
-        parseMode: MarkdownV2
-        escapeCharacters:
-          - "`"
+    cronJobs:
 
-      - trigger: "Backup"
+      - schedule: "20 16 * * *"
+        message: "{{ .Values.apps.telegrammy.grafanaDashboardUrl }}"
+        parseMode: HTML
+
+      - schedule: "20 4 * * 1"
         command: |
           git clone --quiet https://github.com/kymzky/ansible-homelab.git
           cd ansible-homelab
           echo "[defaults]
           host_key_checking = False" > ansible.cfg
           git pull --quiet
-          ansible-playbook --vault-pass-file ~/.vault-pass -i inventory/prod.yaml playbooks/backup.yaml > /tmp/ansible.log
+          ansible-playbook --vault-pass-file ~/.vault-pass -i inventory/{{ .Values.name }}.yaml playbooks/backup.yaml > /tmp/ansible.log
           cat /tmp/ansible.log
         message: "Backup:\n```\n%s```"
         parseMode: MarkdownV2
         escapeCharacters:
           - "`"
 
-    cronJobs:
-
-      - schedule: "20 16 * * *"
-        message: "{{ .Values.apps.telegrammy.grafanaDashboardUrl }}"
-        parseMode: HTML
+      - schedule: "20 4 * * 3"
+        command: |
+          git clone --quiet https://github.com/kymzky/ansible-homelab.git
+          cd ansible-homelab
+          echo "[defaults]
+          host_key_checking = False" > ansible.cfg
+          git pull --quiet
+          ansible-playbook -i inventory/{{ .Values.name }}.yaml playbooks/update.yaml > /tmp/ansible.log
+          cat /tmp/ansible.log
+        message: "Update:\n```\n%s```"
+        parseMode: MarkdownV2
+        escapeCharacters:
+          - "`"
