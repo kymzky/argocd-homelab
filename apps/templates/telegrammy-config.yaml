@@ -10,6 +10,13 @@ data:
     shellPath: "/bin/bash"
     pollInterval: 5
 
+    initCommand: |
+      apk add openssh git ansible
+      mkdir ~/.ssh
+      echo $SSH_PRIVATE_KEY > ~/.ssh/id_ed25519
+      chmod 400 ~/.ssh/id_ed25519
+      echo $ANSIBLE_VAULT_PASS > ~/.vault-pass
+
     responseJobs:
 
       - trigger: "configuration"
@@ -22,6 +29,34 @@ data:
       - trigger: "reset"
         command: "rm -f /etc/telegrammy/conversation"
         message: "ChatGPT conversation reset"
+
+      - trigger: "Update"
+        command: |
+          git clone --quiet https://github.com/kymzky/ansible-homelab.git
+          cd ansible-homelab
+          echo "[defaults]
+          host_key_checking = False" > ansible.cfg
+          git pull --quiet
+          ansible-playbook -i inventory/prod.yaml playbooks/update.yaml > /tmp/ansible.log
+          cat /tmp/ansible.log
+        message: "Update:\n```\n%s```"
+        parseMode: MarkdownV2
+        escapeCharacters:
+          - "`"
+
+      - trigger: "Backup"
+        command: |
+          git clone --quiet https://github.com/kymzky/ansible-homelab.git
+          cd ansible-homelab
+          echo "[defaults]
+          host_key_checking = False" > ansible.cfg
+          git pull --quiet
+          ansible-playbook --vault-pass-file ~/.vault-pass -i inventory/prod.yaml playbooks/backup.yaml > /tmp/ansible.log
+          cat /tmp/ansible.log
+        message: "Backup:\n```\n%s```"
+        parseMode: MarkdownV2
+        escapeCharacters:
+          - "`"
 
     cronJobs:
 
