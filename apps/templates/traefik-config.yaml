@@ -15,7 +15,7 @@ data:
             certFile: '/certs/tls.crt'
             keyFile: '/certs/tls.key'
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: TLSStore
 metadata:
   name: default
@@ -36,5 +36,7 @@ spec:
         tls:
           enabled: true
       web:
-        redirectTo: 
-          port: websecure
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
