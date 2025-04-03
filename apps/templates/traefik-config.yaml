@@ -36,6 +36,5 @@ spec:
         tls:
           enabled: true
       web:
-        redirections:
-          entryPoint:
-            to: websecure
+        redirectTo: 
+          port: websecure
