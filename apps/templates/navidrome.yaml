@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: navidrome
-    targetRevision: 1.0.3
+    targetRevision: 1.0.4
     helm:
       values: |
         env:
