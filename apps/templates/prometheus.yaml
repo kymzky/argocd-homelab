@@ -22,6 +22,8 @@ spec:
               - prometheus.{{ .Values.config.domain }}
           persistentVolume:
             storageClass: longhorn
+        alertmanager:
+          enabled: false
   destination:
     server: {{ .Values.cluster.server }}
     namespace: monitoring
