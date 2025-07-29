@@ -78,6 +78,15 @@ spec:
             persistence:
               enabled: true
               storageClass: longhorn
+            initContainers:
+              - name: upgrade
+                image: "pgautoupgrade/pgautoupgrade:17-alpine"
+                env:
+                  - name: "POSTGRES_HOST_AUTH_METHOD"
+                    value: "trust"
+                volumeMounts:
+                  - mountPath: "/bitnami/postgresql"
+                    name: "data"
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
