@@ -28,7 +28,7 @@ spec:
   source:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: grafana
-    targetRevision: 8.15.0
+    targetRevision: 9.3.0
     helm:
       values: |
         ingress:
