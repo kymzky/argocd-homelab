@@ -31,7 +31,7 @@ spec:
     helm:
       values: |
         env:
-          WG_HOST: wireguard.{{ .Values.config.domain }}
+          HOST: wireguard.{{ .Values.config.domain }}
         service:
           type: LoadBalancer
         ingress:
