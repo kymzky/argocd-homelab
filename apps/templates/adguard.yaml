@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: adguard-home
-    targetRevision: 1.0.6
+    targetRevision: 1.0.7
     helm:
       values: |
         services:
