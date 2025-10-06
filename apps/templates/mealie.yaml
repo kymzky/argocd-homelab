@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mealie
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: mealie
+    targetRevision: 0.1.1
+    helm:
+      values: |
+        env:
+          - name: BASE_URL
+            value: mealie.{{ .Values.config.domain }}
+          - name: TZ
+            value: Europe/Belin
+        ingress:
+          main:
+            enabled: true
+            className: traefik
+            hosts:
+              - host: mealie.{{ .Values.config.domain }}
+                paths:
+                  - path: /
+                    pathType: Prefix
+        persistence:
+          data:
+            enabled: true
+            storageClass: longhorn
+            size: {{ .Values.apps.mealie.diskSize }}
+  destination:
+    server: {{ .Values.cluster.server }}
+    namespace: mealie
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

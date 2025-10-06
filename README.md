@@ -20,6 +20,7 @@ for a simple deployment via Argo CD.
 - [Grafana](https://grafana.com/)
 - [Home Assistant](https://www.home-assistant.io/)
 - [Longhorn](https://longhorn.io/)
+- [Mealie](https://mealie.io/)
 - [Navidrome](https://www.navidrome.org/)
 - [Nextcloud](https://nextcloud.com/)
 - [Prometheus](https://prometheus.io/)

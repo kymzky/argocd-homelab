@@ -94,6 +94,15 @@ spec:
                 dns-resolver: tcp://{{ .Values.cluster.ip }}:53
               alerts:
                 - type: telegram
+            - name: mealie
+              url: https://mealie.{{ .Values.config.domain }}
+              conditions:
+                - "[STATUS] == 200"
+              client:
+                insecure: {{ .Values.config.useTestCert }}
+                dns-resolver: tcp://{{ .Values.cluster.ip }}:53
+              alerts:
+                - type: telegram
             - name: navidrome
               url: https://navidrome.{{ .Values.config.domain }}
               conditions:
