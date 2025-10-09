@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: mealie
-    targetRevision: 0.1.1
+    targetRevision: 0.2.0
     helm:
       values: |
         controllers:
@@ -20,8 +20,8 @@ spec:
               main:
                 env:
                   TZ: "Europe/Berlin"
-                  THEME_LIGHT_PRIMARY: '#646464'
-                  THEME_DARK_PRIMARY: '#646464'
+                  THEME_LIGHT_PRIMARY: '646464'
+                  THEME_DARK_PRIMARY: '646464'
         ingress:
           main:
             enabled: true
