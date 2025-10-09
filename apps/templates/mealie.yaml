@@ -11,14 +11,13 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: mealie
-    targetRevision: 0.1.1
+    targetRevision: 0.1.2
     helm:
       values: |
         env:
-          - name: BASE_URL
-            value: mealie.{{ .Values.config.domain }}
-          - name: TZ
-            value: Europe/Belin
+          TZ: Europe/Belin
+          THEME_LIGHT_PRIMARY: '#646464'
+          THEME_DARK_PRIMARY: '#646464'
         ingress:
           main:
             enabled: true
