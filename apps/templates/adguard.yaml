@@ -14,6 +14,11 @@ spec:
     targetRevision: 1.0.8
     helm:
       values: |
+        persistence:
+          volumeClaimSpec:
+            resources:
+              requests:
+                storage: 2Gi
         services:
           dns:
             type: LoadBalancer
