@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://kymzky.github.io/helm-homelab'
     chart: home-assistant
-    targetRevision: 2.1.1
+    targetRevision: 2.1.2
     helm:
       values: |
         env:
