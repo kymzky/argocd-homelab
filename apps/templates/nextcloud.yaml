@@ -68,6 +68,8 @@ spec:
             passwordKey: postgres-password
         postgresql:
           enabled: true
+          image:
+            tag: latest
           global:
             postgresql:
               auth:
