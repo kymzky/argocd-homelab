@@ -8,6 +8,8 @@ metadata:
 spec:
   encryptedData:
     password: {{ .Values.apps.nextcloud.encryptedPassword }}
+    postgres-password: {{ .Values.apps.nextcloud.postgresEncryptedPassword }}
+    postgres-username: {{ .Values.apps.nextcloud.postgresEncryptedUsername }}
     username: {{ .Values.apps.nextcloud.encryptedUsername }}
   template:
     metadata:
@@ -28,7 +30,7 @@ spec:
   source:
     repoURL: 'https://nextcloud.github.io/helm'
     chart: nextcloud
-    targetRevision: 8.0.1
+    targetRevision: 7.0.4
     helm:
       values: |
         persistence:
@@ -55,7 +57,29 @@ spec:
               upload_max_filesize: 15G
               post_max_size: 15G
         internalDatabase:
+          enabled: false
+        externalDatabase:
           enabled: true
+          type: postgresql
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secret
+            usernameKey: postgres-username
+            passwordKey: postgres-password
+        postgresql:
+          enabled: true
+          image:
+            tag: latest
+          global:
+            postgresql:
+              auth:
+                existingSecret: nextcloud-secret
+                secretKeys:
+                  userPasswordKey: postgres-password
+          primary:
+            persistence:
+              enabled: true
+              storageClass: longhorn
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
