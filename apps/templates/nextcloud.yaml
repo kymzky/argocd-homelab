@@ -28,7 +28,7 @@ spec:
   source:
     repoURL: 'https://nextcloud.github.io/helm'
     chart: nextcloud
-    targetRevision: 8.9.1
+    targetRevision: 8.0.1
     helm:
       values: |
         persistence:
@@ -55,19 +55,7 @@ spec:
               upload_max_filesize: 15G
               post_max_size: 15G
         internalDatabase:
-          enabled: false
-        externalDatabase:
           enabled: true
-          type: mysql
-          existingSecret:
-            enabled: true
-            secretName: nextcloud-secret
-        mariadb:
-          enabled: true
-          primary:
-            persistence:
-              enabled: true
-              storageClass: longhorn
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
