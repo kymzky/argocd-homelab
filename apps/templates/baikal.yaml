@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: baikal
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://kymzky.github.io/helm-homelab'
+    chart: baikal
+    targetRevision: 1.0.0
+    helm:
+      values: |
+        common:
+          ingress:
+            enabled: true
+            hostName: baikal.{{ .Values.config.domain }}
+            ingressClassName: traefik
+  destination:
+    server: {{ .Values.cluster.server }}
+    namespace: home-assistant
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
