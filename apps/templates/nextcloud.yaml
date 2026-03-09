@@ -30,7 +30,7 @@ spec:
   source:
     repoURL: 'https://nextcloud.github.io/helm'
     chart: nextcloud
-    targetRevision: 6.6.10
+    targetRevision: 9.0.3
     helm:
       values: |
         persistence:
