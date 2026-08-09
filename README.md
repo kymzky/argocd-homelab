@@ -18,7 +18,6 @@ for a simple deployment via Argo CD.
 - [ddns-updater](https://github.com/qdm12/ddns-updater)
 - [Gatus](https://gatus.io/)
 - [Grafana](https://grafana.com/)
-- [Home Assistant](https://www.home-assistant.io/)
 - [Longhorn](https://longhorn.io/)
 - [Navidrome](https://www.navidrome.org/)
 - [Nextcloud](https://nextcloud.com/)
