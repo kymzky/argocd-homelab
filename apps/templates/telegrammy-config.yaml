@@ -30,6 +30,20 @@ data:
         command: "rm -f /etc/telegrammy/conversation"
         message: "ChatGPT conversation reset"
 
+      - trigger: "update"
+        command: |
+          git clone --quiet https://github.com/kymzky/ansible-homelab.git
+          cd ansible-homelab
+          echo "[defaults]
+          host_key_checking = False" > ansible.cfg
+          git pull --quiet
+          ansible-playbook -i inventory/prod.yaml playbooks/update.yaml > /tmp/ansible.log
+          cat /tmp/ansible.log
+        message: "Update:\n```\n%s```"
+        parseMode: MarkdownV2
+        escapeCharacters:
+          - "`"
+
     cronJobs:
 
       - schedule: "20 16 * * *"
