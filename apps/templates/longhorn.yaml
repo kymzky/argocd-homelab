@@ -28,3 +28,9 @@ spec:
       prune: true
     syncOptions:
       - CreateNamespace=true
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      name: longhorn
+      jsonPointers:
+        - /metadata/finalizers
