@@ -70,7 +70,6 @@ spec:
           enabled: true
           image:
             tag: latest
-            digest: sha256:a3139319c5f3840c118c217839b2dc70f50504625e6651432aa9d0d1fc0d7844
           global:
             postgresql:
               auth:
@@ -81,10 +80,6 @@ spec:
             persistence:
               enabled: true
               storageClass: longhorn
-            resourcesPreset: small
-            startupProbe:
-              enabled: true
-              failureThreshold: 60
   destination:
     server: {{ .Values.cluster.server }}
     namespace: media-services
