@@ -1,0 +1,82 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: nextcloud-secret
+  namespace: media-services
+spec:
+  encryptedData:
+    password: {{ .Values.apps.nextcloud.encryptedPassword }}
+    postgres-password: {{ .Values.apps.nextcloud.postgresEncryptedPassword }}
+    postgres-username: {{ .Values.apps.nextcloud.postgresEncryptedUsername }}
+    username: {{ .Values.apps.nextcloud.encryptedUsername }}
+  template:
+    metadata:
+      creationTimestamp: null
+      name: nextcloud-secret
+      namespace: media-services
+    type: Opaque
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nextcloud-new
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://nextcloud.github.io/helm'
+    chart: nextcloud
+    targetRevision: 9.4.1
+    helm:
+      values: |
+        persistence:
+          enabled: true
+          storageClass: longhorn
+          nextcloudData:
+            enabled: true
+            subPath: nextcloud-new
+            existingClaim: media-services-storage
+        ingress:
+          enabled: true
+          className: traefik
+        phpClientHttpsFix:
+          enabled: true
+        nextcloud:
+          host: nextcloud-new.{{ .Values.config.domain }}
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secret
+            usernameKey: username
+            passwordKey: password
+          phpConfigs:
+            zz-filesize.ini: |-
+              upload_max_filesize: 15G
+              post_max_size: 15G
+        internalDatabase:
+          enabled: false
+        externalDatabase:
+          enabled: true
+          type: postgresql
+          existingSecret:
+            enabled: true
+            secretName: nextcloud-secret
+            usernameKey: postgres-username
+            passwordKey: postgres-password
+        mariadb:
+          enabled: true
+          primary:
+            persistence:
+              enabled: true
+              storageClass: longhorn
+  destination:
+    server: {{ .Values.cluster.server }}
+    namespace: media-services
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
